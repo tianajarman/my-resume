@@ -10,11 +10,16 @@ def home():
 @app.route('/courses')
 def courses():
     courses = [
-        'MISY 225: Introduction to Programming Business Applications',
-        'MISY 330: Database Design & Implementation',
-        'BUAD 306: Service & Operations Management',
-        'CISC 355: Computers, Ethics & Society',
-        'ACCT 352: Law & Social Issues in Business'
+        ['MISY 225', 'Introduction to Programming Business Applications',
+            'Learning to program in Java.'],
+        ['MISY 330', 'Database Design & Implementation',
+            'Learning data mining alogorithms and the SQL language'],
+        ['BUAD 306', 'Service & Operations Management',
+            'Learning how to recognize and solve team-based conflicts.'],
+        ['CISC 355', 'Computers, Ethics & Society',
+            'Analyzing the impact of computers on our society.'],
+        ['MISY 350', 'Web Application Development',
+            'Fundamentals of web development, including Python and Flask.']
     ]
     return render_template('courses.html', courses=courses)
 
