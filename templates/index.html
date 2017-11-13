@@ -10,12 +10,18 @@ Homepage
     body {
       padding-top: 54px;
     }
+
+    #intro {
+      padding-top: 15px;
+    }
+
   </style>
 {% endblock %}
 
 {% block page_content %}
 <div class="container">
    <h1 class="mt-5"><i class="fa fa-folder-o" aria-hidden="true"></i> Resume</h1>
-   <p>This is my resume website. It was designed using a combination of Flask, Flask Script, Jinja, Bootstrap, Fontawesome, and jQuery.</p>
+   <p id="intro">This is my resume website. It was designed using a combination of Flask, Flask Script, Jinja, Bootstrap, Fontawesome, and jQuery. Navigate <br>
+     to the Courses link in order to see some of the courses I've partaken in and click the About link to get a bit of background information on me. </p>
  </div>
 {% endblock %}

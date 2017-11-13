@@ -14,8 +14,6 @@ def courses():
             'Learning to program in Java.'],
         ['MISY 330', 'Database Design & Implementation',
             'Learning data mining alogorithms and the SQL language'],
-        ['BUAD 306', 'Service & Operations Management',
-            'Learning how to recognize and solve team-based conflicts.'],
         ['CISC 355', 'Computers, Ethics & Society',
             'Analyzing the impact of computers on our society.'],
         ['MISY 350', 'Web Application Development',
