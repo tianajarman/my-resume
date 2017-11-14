@@ -16,8 +16,8 @@
    <h1 class="mt-5"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Courses</h1>
    <ul>
      {% for course in courses %}
-       <li><a href="#" data-toggle="modal" data-target="#course">{{course[1]}}</a></li>
-       <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="course">
+       <li><a href="#{{course[0]}}" data-toggle="modal" data-target="#{{course[0]}}">{{course[1]}}</a></li>
+       <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="{{course[0]}}">
        <div class="modal-dialog modal-sm">
                <div class="modal-content">
                  <div class="modal-content">
@@ -29,6 +29,7 @@
                          {{course[2]}}
                      </div>
                    </div>
+
                  </div>
                </div>
              </div>
