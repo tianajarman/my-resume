@@ -1,5 +1,28 @@
+import os
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
+
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+db = SQLAlchemy(app)
+
+
+class Professor(db.Model):
+    __tablename__ = 'professors'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    department = db.Column(db.String(64))
+    courses = db.relationship('Course', backref='professor')
+
+
+class Course(db.Model):
+    __tablename__ = 'courses'
+    course_numer = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    description = db.Column(db.String(64))
+    professor_id = db.Column(db.Integer, db.ForeignKey(professors.id))
 
 
 @app.route('/')
