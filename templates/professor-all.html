@@ -4,14 +4,22 @@
 All Professors
 {% endblock %}
 
+{% block head%}
+  {{super()}}
+  <style>
+    body {
+      padding-top: 54px;
+    }
+  </style>
+{% endblock %}
+
 {% block page_content %}
 <div class="container">
    <h1 class="mt-5"><i class="fa fa-suitcase" aria-hidden="true"></i>Professor Directory</h1>
 
   {% for professor in professors %}
-        <h3>{{professor.id}}</h3>
-        <h3>{{professor.name}}</h3>
-        <h3>{{professor.department}}</h3>
+        <h4>{{professor.name}}</h4>
+        <h4>{{professor.department}}</h4>
    {% endfor %}
 </div>
 {% endblock %}
