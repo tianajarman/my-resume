@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, session, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
@@ -13,16 +13,17 @@ class Professor(db.Model):
     __tablename__ = 'professors'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
-    department = db.Column(db.String(64))
+    department = db.Column(db.Text)
     courses = db.relationship('Course', backref='professor')
 
 
 class Course(db.Model):
     __tablename__ = 'courses'
-    course_numer = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64))
-    description = db.Column(db.String(64))
-    professor_id = db.Column(db.Integer, db.ForeignKey(professors.id))
+    id = db.Column(db.Integer, primary_key=True)
+    course_number = db.Column(db.Integer)
+    title = db.Column(db.String(256))
+    description = db.Column(db.Text)
+    professor_id = db.Column(db.Integer, db.ForeignKey('professor.id'))
 
 
 @app.route('/')
@@ -48,6 +49,12 @@ def courses():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/professor')
+def show_all_professors():
+    professors = Professor.query.all()
+    return render_template('professor-all.html', professors=professors)
 
 
 if __name__ == '__main__':
