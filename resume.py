@@ -58,9 +58,34 @@ def show_all_professors():
 
 
 @app.route('/course-directory')
-def all_courses():
+def show_all_courses():
     courses = Course.query.all()
     return render_template('course-all.html', courses=courses)
+
+
+@app.route('/professors/edit/<int:id>', methods=['GET', 'POST'])
+def edit_professor(id):
+    professor = Professor.query.filter_by(id=id).first()
+    if request.method == 'GET':
+        return render_template('professor-edit.html', professor=professor)
+    if request.method == 'POST':
+        professor.name = request.form['name']
+        professor.department = request.form['department']
+        db.session.commit()
+        return redirect(url_for('show_all_professors'))
+
+
+@app.route('/course-directory/edit/<int:id>', methods=['GET', 'POST'])
+def edit_course(id):
+    course = Course.query.filter_by(id=id).first()
+    if request.method == 'GET':
+        return render_template('course-edit.html', course=course)
+    if request.method == 'POST':
+        course.course_number = request.form['course number']
+        course.title = request.form['title']
+        course.description = request.form['description']
+        db.session.commit()
+        return redirect(url_for('show_all_courses'))
 
 
 if __name__ == '__main__':
