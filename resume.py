@@ -88,5 +88,34 @@ def edit_course(id):
         return redirect(url_for('show_all_courses'))
 
 
+@app.route('/professors/add', methods=['GET', 'POST'])
+def add_professors():
+    if request.method == 'GET':
+        return render_template('professor-add.html')
+    if request.method == 'POST':
+        name = request.form['name']
+        department = request.form['department']
+
+        professor = Professor(name=name, department=department)
+        db.session.add(professor)
+        db.session.commit()
+        return redirect(url_for('show_all_professors'))
+
+
+@app.route('/course-directory/add', methods=['GET', 'POST'])
+def add_courses():
+    if request.method == 'GET':
+        return render_template('course-add.html')
+    if request.method == 'POST':
+        course_number = request.form['course number']
+        title = request.form['title']
+        description = request.form['description']
+
+        professor = Course(course_number=course_number, title=title, description=description)
+        db.session.add(course)
+        db.session.commit()
+        return redirect(url_for('show_all_courses'))
+
+
 if __name__ == '__main__':
     app.run()
