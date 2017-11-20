@@ -111,7 +111,7 @@ def add_courses():
         title = request.form['title']
         description = request.form['description']
 
-        professor = Course(course_number=course_number, title=title, description=description)
+        course = Course(course_number=course_number, title=title, description=description)
         db.session.add(course)
         db.session.commit()
         return redirect(url_for('show_all_courses'))
