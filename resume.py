@@ -14,13 +14,13 @@ class Professor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     department = db.Column(db.Text)
-    courses = db.relationship('Course', backref='professor')
+    courses = db.relationship('Course', backref='professor', cascade="delete")
 
 
 class Course(db.Model):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
-    course_number = db.Column(db.Integer)
+    course_number = db.Column(db.String(256))
     title = db.Column(db.String(256))
     description = db.Column(db.Text)
     professor_id = db.Column(db.Integer, db.ForeignKey('professors.id'))
@@ -57,10 +57,29 @@ def show_all_professors():
     return render_template('professor-all.html', professors=professors)
 
 
-@app.route('/course-directory')
-def show_all_courses():
-    courses = Course.query.all()
-    return render_template('course-all.html', courses=courses)
+@app.route('/professors/add', methods=['GET', 'POST'])
+def add_professors():
+    if request.method == 'GET':
+        return render_template('professor-add.html')
+    if request.method == 'POST':
+        name = request.form['name']
+        department = request.form['department']
+
+        professor = Professor(name=name, department=department)
+        db.session.add(professor)
+        db.session.commit()
+        return redirect(url_for('show_all_professors'))
+
+
+@app.route('/professors/delete/<int:id>', methods=['GET', 'POST'])
+def delete_professor(id):
+    professor = Professor.query.filter_by(id=id).first()
+    if request.method == 'GET':
+        return render_template('professor-delete.html', professor=professor)
+    if request.method == 'POST':
+        db.session.delete(professor)
+        db.session.commit()
+        return redirect(url_for('show_all_professors'))
 
 
 @app.route('/professors/edit/<int:id>', methods=['GET', 'POST'])
@@ -73,6 +92,12 @@ def edit_professor(id):
         professor.department = request.form['department']
         db.session.commit()
         return redirect(url_for('show_all_professors'))
+
+
+@app.route('/course-directory')
+def show_all_courses():
+    courses = Course.query.all()
+    return render_template('course-all.html', courses=courses)
 
 
 @app.route('/course-directory/edit/<int:id>', methods=['GET', 'POST'])
@@ -88,31 +113,32 @@ def edit_course(id):
         return redirect(url_for('show_all_courses'))
 
 
-@app.route('/professors/add', methods=['GET', 'POST'])
-def add_professors():
-    if request.method == 'GET':
-        return render_template('professor-add.html')
-    if request.method == 'POST':
-        name = request.form['name']
-        department = request.form['department']
-
-        professor = Professor(name=name, department=department)
-        db.session.add(professor)
-        db.session.commit()
-        return redirect(url_for('show_all_professors'))
-
-
 @app.route('/course-directory/add', methods=['GET', 'POST'])
 def add_courses():
     if request.method == 'GET':
-        return render_template('course-add.html')
+        professor = Professor.query.all()
+        return render_template('course-add.html', professor=professor)
     if request.method == 'POST':
         course_number = request.form['course number']
         title = request.form['title']
         description = request.form['description']
+        professor_name = request.form['professor_name']
+
+        professor = Professor.query.filter_by(name=professor_name).first()
 
         professor = Course(course_number=course_number, title=title, description=description)
         db.session.add(course)
+        db.session.commit()
+        return redirect(url_for('show_all_courses'))
+
+
+@app.route('/course-directory/delete/<int:id>', methods=['GET', 'POST'])
+def delete_course(id):
+    course = Course.query.filter_by(id=id).first()
+    if request.method == 'GET':
+        return render_template('course-delete.html', course=course)
+    if request.method == 'POST':
+        db.session.delete(course)
         db.session.commit()
         return redirect(url_for('show_all_courses'))
 

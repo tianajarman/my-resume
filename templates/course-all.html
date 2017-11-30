@@ -19,25 +19,32 @@ All Courses
    <div class="row bottom-margin">
      <a href="/course-directory/add" class="btn btn-primary" role="button" aria-disabeled="true">Add</a>
    </div>
+
 {% if courses %}
 <table class="table">
   <thead>
     <tr>
-      <th>Course ID</th>
-      <th>Course Number</th>
+      <th>ID</th>
+      <th>Course</th>
       <th>Title</th>
       <th>Description</th>
+      <th>Professor</th>
     </tr>
   </thead>
   <tbody>
+
   {% for course in courses %}
   <tr>
     <th scope="row">{{course.id}}</th>
         <td>{{course.course_number}}</td>
         <td>{{course.title}}</td>
         <td>{{course.description}}</td>
+        <td>{{course.professor.name}}</td>
         <td>
           <a href="/course-directory/edit/{{course.id}}" class ="btn btn-success" role="button" aria-disabled="true"> Edit</a>
+        <td>
+          <a href="/course-directory/delete/{{course.id}}" class ="btn btn-danger" role="button" aria-disabled="true"> Delete</a>
+        </td>
         </td>
   </tr>
    {% endfor %}
